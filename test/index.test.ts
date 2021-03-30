@@ -1,6 +1,27 @@
-describe("테스트", () => {
-  test("코드", () => {
-    expect(1).toBe(1);
+import req from "../src/index";
+
+describe("ts-req", () => {
+  const url: string = "https://jsonplaceholder.typicode.com/posts";
+
+  test("get", async () => {
+    const res = await req.get(url);
+
+    expect(res.data.length).toBe(100);
+  });
+
+  test("post", async () => {
+    const res = await req.post(url, {
+      title: "title",
+      body: "body",
+      userId: 1,
+    });
+
+    expect(res.data).toEqual({
+      id: 101,
+      title: "title",
+      body: "body",
+      userId: 1,
+    });
   });
 });
 

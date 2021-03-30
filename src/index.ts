@@ -1,5 +1,8 @@
 class TsReq {
-  static commonHeaders: any = { "Cache-Control": "no-cache" };
+  static commonHeaders: any = {
+    "Content-type": "application/json",
+    "Cache-Control": "no-cache",
+  };
   static resSuccessCode: number[] = [
     100,
     101,
@@ -12,7 +15,7 @@ class TsReq {
     206,
   ];
 
-  static setHeaders(httpRequest: XMLHttpRequest, headers: any) {
+  static setHeaders(httpRequest: XMLHttpRequest, headers?: any) {
     Object.entries({ ...this.commonHeaders, ...headers }).forEach(
       ([key, value]: [string, any]) => {
         httpRequest.setRequestHeader(key, value);
@@ -20,9 +23,15 @@ class TsReq {
     );
   }
 
-  static runCallback(callback: Function) {
+  static runCallback(callback?: Function) {
     if (typeof callback !== "function") {
       return;
+    }
+  }
+
+  static parsedBody(data: any): any {
+    if (typeof data === "object") {
+      return JSON.stringify(data);
     }
   }
 
@@ -48,9 +57,9 @@ class TsReq {
 
   static setOnReadyStateChange(
     httpRequest: XMLHttpRequest,
-    callback: Function,
     resolve: Function,
-    reject: Function
+    reject: Function,
+    callback?: Function
   ) {
     httpRequest.onreadystatechange = (): void => {
       try {
@@ -76,7 +85,7 @@ class TsReq {
     };
   }
 
-  static get(url: string, headers: any, callback: Function): Promise<any> {
+  static get(url: string, headers?: any, callback?: Function): Promise<any> {
     return new Promise((resolve: Function, reject: Function) => {
       try {
         const httpRequest: XMLHttpRequest = this.getHttpRequest();
@@ -85,7 +94,7 @@ class TsReq {
 
         this.setHeaders(httpRequest, headers);
 
-        this.setOnReadyStateChange(httpRequest, callback, resolve, reject);
+        this.setOnReadyStateChange(httpRequest, resolve, reject, callback);
 
         httpRequest.send();
       } catch (error) {
@@ -94,7 +103,12 @@ class TsReq {
     });
   }
 
-  static post(url: string, body: any, headers: any, callback: Function) {
+  static post(
+    url: string,
+    body: any,
+    headers?: any,
+    callback?: Function
+  ): Promise<any> {
     return new Promise((resolve: Function, reject: Function) => {
       try {
         const httpRequest: XMLHttpRequest = this.getHttpRequest();
@@ -103,9 +117,9 @@ class TsReq {
 
         this.setHeaders(httpRequest, headers);
 
-        this.setOnReadyStateChange(httpRequest, callback, resolve, reject);
+        this.setOnReadyStateChange(httpRequest, resolve, reject, callback);
 
-        httpRequest.send(body);
+        httpRequest.send(this.parsedBody(body));
       } catch (error) {
         reject(error);
       }
