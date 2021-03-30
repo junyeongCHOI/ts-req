@@ -3,6 +3,7 @@ class TsReq {
     "Content-type": "application/json",
     "Cache-Control": "no-cache",
   };
+
   static resSuccessCode: number[] = [
     100,
     101,
@@ -23,10 +24,11 @@ class TsReq {
     );
   }
 
-  static runCallback(callback?: Function) {
+  static runCallback(httpRequest: XMLHttpRequest, callback?: Function) {
     if (typeof callback !== "function") {
       return;
     }
+    callback(httpRequest);
   }
 
   static parsedBody(data: any): any {
@@ -77,7 +79,7 @@ class TsReq {
         }
 
         // 콜백이 있을 경우 각 readyState 마다 callback을 실행
-        this.runCallback(callback);
+        this.runCallback(httpRequest, callback);
       } catch (error) {
         // 응답 이외의 에러 예외처리
         reject(error);
