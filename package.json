@@ -10,7 +10,7 @@
     "/dist"
   ],
   "scripts": {
-    "build": "rollup -c",
+    "build": "tsc",
     "test": "tsc && jest"
   },
   "keywords": [
@@ -40,5 +40,8 @@
     "testMatch": [
       "**/*.(test|spec).(ts|tsx)"
     ]
+  },
+  "dependencies": {
+    "@rollup/plugin-typescript": "^8.2.1"
   }
 }

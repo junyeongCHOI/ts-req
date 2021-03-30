@@ -1,4 +1,4 @@
-export default class TsReq {
+export default class Core {
   static commonHeaders: any = {
     "Content-type": "application/json",
     "Cache-Control": "no-cache",
