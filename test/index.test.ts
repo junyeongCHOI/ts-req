@@ -1,4 +1,4 @@
-import req from "../src/index";
+import req from "../dist/index";
 
 describe("ts-req", () => {
   const url: string = "https://jsonplaceholder.typicode.com/posts";

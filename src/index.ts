@@ -1,4 +1,4 @@
-class TsReq {
+export default class TsReq {
   static commonHeaders: any = {
     "Content-type": "application/json",
     "Cache-Control": "no-cache",
@@ -128,5 +128,3 @@ class TsReq {
     });
   }
 }
-
-export default TsReq;
