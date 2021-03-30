@@ -23,6 +23,14 @@ describe("ts-req", () => {
       userId: 1,
     });
   });
+
+  test("post, body X", async () => {
+    const res = await req.post(url);
+
+    expect(res.data).toEqual({
+      id: 101,
+    });
+  });
 });
 
 export {};

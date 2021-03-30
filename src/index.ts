@@ -107,7 +107,7 @@ class TsReq {
 
   static post(
     url: string,
-    body: any,
+    body?: any,
     headers?: any,
     callback?: Function
   ): Promise<any> {
