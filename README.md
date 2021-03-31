@@ -27,7 +27,7 @@ const res2 = await req.post(url, body, headers, callback);
 
 > url은 필수입니다.
 
-> headers 는 [참고](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers)를 key, value로 가지는 object입니다. default 는 "Content-Type": "application/json", "Cache-Control": "no-cache" 입니다.
+> headers 는 [참고](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers)를 key, value로 가지는 object입니다. default 는 "Content-Type": "application/json", "Cache-Control": "no-cache", accept: "\*" 입니다.
 
 > callback은 각 request의 state가 변경될 때 실행됩니다.
 
@@ -51,9 +51,7 @@ const res2 = await req.post(url, body, headers, callback);
 (async () => {
   const url = "https://httpbin.org";
 
-  const res = await req.get(`${url}/image/png`, {
-    accept: "image/*",
-  });
+  const res = await req.get(`${url}/image/png`);
 
   console.log(res);
 })();

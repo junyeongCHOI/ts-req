@@ -2,6 +2,7 @@ export default class Core {
   static commonHeaders: any = {
     "Content-Type": "application/json",
     "Cache-Control": "no-cache",
+    accept: "*",
   };
 
   static resResolveStatus: number[] = [

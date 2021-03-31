@@ -10,9 +10,7 @@ describe("ts-req", () => {
   });
 
   test("get image", async () => {
-    const res = await req.get(`${url}/image/png`, {
-      accept: "image/*",
-    });
+    const res = await req.get(`${url}/image/png`);
 
     expect(res.data.indexOf("PNG") !== -1).toBe(true);
   });
