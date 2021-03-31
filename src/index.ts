@@ -4,7 +4,7 @@ export default class Core {
     "Cache-Control": "no-cache",
   };
 
-  static resSuccessCode: number[] = [
+  static resResolveStatus: number[] = [
     100,
     101,
     200,
@@ -71,7 +71,7 @@ export default class Core {
       try {
         if (httpRequest.readyState === httpRequest.DONE) {
           // 요청 완료
-          if (this.resSuccessCode.includes(httpRequest.status)) {
+          if (this.resResolveStatus.includes(httpRequest.status)) {
             resolve({
               status: httpRequest.status,
               data: this.parsedData(httpRequest),

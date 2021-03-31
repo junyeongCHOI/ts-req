@@ -125,3 +125,11 @@ const res2 = await req.post(url, body, headers, callback);
 ```javascript
 req.commonHeaders["KEY"] = "VALUE";
 ```
+
+## 📝 Set Resolve Status
+
+resolve를 반환할 status를 지정합니다. 아래 예제는 status 200이 아닌 경우 모두 reject를 반환합니다.
+
+```javascript
+req.resResolveStatus = [200];
+```
