@@ -1,4 +1,4 @@
-# tsReq
+# ts-req
 
 `TypeScript`로 작성된 XMLHttpRequest 기반 request 라이브러리입니다.
 기본적으로 Promise를 반환합니다.
