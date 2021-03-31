@@ -7,7 +7,7 @@ interface sendConfig {
 }
 
 class TsReq {
-  url: string;
+  readonly url: string;
   defaultHeader: any;
   resolveStatus: number[];
 
@@ -18,7 +18,7 @@ class TsReq {
       "Cache-Control": "no-cache",
       accept: "*",
     };
-    this.resolveStatus = [200];
+    this.resolveStatus = [100, 101, 200, 201, 202, 203, 204, 205, 206];
   }
 
   bodyParser<T>(data: T): T | string {

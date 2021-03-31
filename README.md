@@ -102,22 +102,22 @@ const res2 = await req.post(url, body, headers, callback);
   const url = "https://httpbin.org";
   const req = new TsReq(url);
 
-  const res1 = await req.get("/get", null, (req) => {
+  const res1 = await req.get("/get", null, (xhr) => {
     // ... do something
-    console.log(req);
+    console.log(xhr);
   });
 
   const res2 = await req.post(
-    `${url}/post`,
+    "/post",
     {
       title: "title",
       body: "body",
       userId: 1,
     },
     null,
-    (req) => {
+    (xhr) => {
       // ... do something
-      console.log(req);
+      console.log(xhr);
     }
   );
 
@@ -128,7 +128,7 @@ const res2 = await req.post(url, body, headers, callback);
 ## 📝 Set Common Headers
 
 ```javascript
-req.commonHeaders["KEY"] = "VALUE";
+req.defaultHeader["KEY"] = "VALUE";
 ```
 
 ## 📝 Set Resolve Status
@@ -136,5 +136,5 @@ req.commonHeaders["KEY"] = "VALUE";
 resolve를 반환할 status를 지정합니다. 아래 예제는 status 200이 아닌 경우 모두 reject를 반환합니다.
 
 ```javascript
-req.resResolveStatus = [200];
+req.resolveStatus = [200];
 ```
