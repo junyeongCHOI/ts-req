@@ -14,12 +14,14 @@ npm install --save ts-req
 ## 📌 Import
 
 ```javascript
-import req from "ts-req";
+import TsReq from "ts-req";
 ```
 
 ## 💅 Basic Usage
 
 ```javascript
+const req = new TsReq(url);
+
 const res1 = await req.get(url, headers, callback);
 
 const res2 = await req.post(url, body, headers, callback);
@@ -38,8 +40,9 @@ const res2 = await req.post(url, body, headers, callback);
 ```javascript
 (async () => {
   const url = "https://httpbin.org";
+  const req = new TsReq(url);
 
-  const res = await req.get(`${url}/get`);
+  const res = await req.get("/get");
 
   console.log(res);
 })();
@@ -50,8 +53,9 @@ const res2 = await req.post(url, body, headers, callback);
 ```javascript
 (async () => {
   const url = "https://httpbin.org";
+  const req = new TsReq(url);
 
-  const res = await req.get(`${url}/image/png`);
+  const res = await req.get("/image/png");
 
   console.log(res);
 })();
@@ -62,8 +66,9 @@ const res2 = await req.post(url, body, headers, callback);
 ```javascript
 (async () => {
   const url = "https://httpbin.org";
+  const req = new TsReq(url);
 
-  const res = await req.post(`${url}/post`, {
+  const res = await req.post("/post", {
     title: "title",
     body: "body",
     userId: 1,
@@ -78,12 +83,13 @@ const res2 = await req.post(url, body, headers, callback);
 ```javascript
 (async () => {
   const url = "https://httpbin.org";
+  const req = new TsReq(url);
 
   const formData = new FormData();
 
   formData.append("test", "test");
 
-  const res = await req.post(`${url}/post`, formData);
+  const res = await req.post("/post", formData);
 
   console.log(res);
 })();
@@ -94,8 +100,9 @@ const res2 = await req.post(url, body, headers, callback);
 ```javascript
 (async () => {
   const url = "https://httpbin.org";
+  const req = new TsReq(url);
 
-  const res1 = await req.get(`${url}/get`, null, (req) => {
+  const res1 = await req.get("/get", null, (req) => {
     // ... do something
     console.log(req);
   });

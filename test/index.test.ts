@@ -5,7 +5,7 @@ describe("ts-req", () => {
   const req = new tsReq(url);
 
   test("get", async () => {
-    const res = await req.get("/get");
+    const res = await req.get("/get", null);
 
     expect(res.status).toBe(200);
   });

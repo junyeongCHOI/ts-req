@@ -3,6 +3,7 @@ interface sendConfig {
   url?: string;
   body?: any;
   headers?: any;
+  callback?: Function;
 }
 
 class TsReq {
@@ -73,6 +74,10 @@ class TsReq {
                 reject({ status: xhr.status, data: xhr.response });
               }
             }
+
+            if (typeof config.callback === "function") {
+              config.callback(xhr);
+            }
           } catch (error) {
             reject(error);
           }
@@ -85,20 +90,22 @@ class TsReq {
     });
   }
 
-  get(url?: string, headers?: any) {
+  get(url?: string, headers?: any, callback?: Function) {
     return this.send({
       method: "GET",
       url,
       headers,
+      callback,
     });
   }
 
-  post(url?: string, body?: any, headers?: any) {
+  post(url?: string, body?: any, headers?: any, callback?: Function) {
     return this.send({
       method: "POST",
       url,
       body,
       headers,
+      callback,
     });
   }
 }
