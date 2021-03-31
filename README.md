@@ -3,8 +3,9 @@
 `TypeScript`로 작성된 XMLHttpRequest 기반 request 라이브러리입니다.
 기본적으로 Promise를 반환합니다. `resolve`, `reject`
 
-(git)[https://github.com/junyeongCHOI/ts-req]
-(npm)[https://www.npmjs.com/package/ts-req]
+[git](https://github.com/junyeongCHOI/ts-req)
+
+[npm](https://www.npmjs.com/package/ts-req)
 
 ## 🛠 Insatll
 
