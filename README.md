@@ -8,13 +8,13 @@
 ## 🛠 Insatll
 
 ```
-npm install --save tsReq
+npm install --save ts-req
 ```
 
 ## 📌 Import
 
 ```javascript
-import req from "tsReq";
+import req from "ts-req";
 ```
 
 ## 💅 Basic Usage

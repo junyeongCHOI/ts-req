@@ -1,6 +1,6 @@
 {
   "name": "ts-req",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "light request",
   "author": "junyeong CHOI <98.junyeong@gmail.com>",
   "repository": "https://github.com/junyeongCHOI/ts-req",
@@ -12,7 +12,7 @@
   "scripts": {
     "build": "tsc",
     "test": "npm run build && terser ./dist/index.js -o ./dist/index.js -m -c  && jest",
-    "minifypublish": "tsc && terser ./dist/index.js -o ./dist/index.js -m -c  && npm publish"
+    "prepublish": "tsc && terser ./dist/index.js -o ./dist/index.js -m -c"
   },
   "keywords": [
     "ts-req",
