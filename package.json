@@ -12,7 +12,7 @@
   "scripts": {
     "build": "tsc",
     "test": "npm run build && terser ./dist/index.js -o ./dist/index.js -m -c  && jest",
-    "prepublish": "tsc && terser ./dist/index.js -o ./dist/index.js -m -c"
+    "publish:minify": "tsc && terser ./dist/index.js -o ./dist/index.js -m -c && npm publish"
   },
   "keywords": [
     "ts-req",
