@@ -1,35 +1,44 @@
 import req from "../dist/index.js";
 
 describe("ts-req", () => {
-  const url: string = "https://jsonplaceholder.typicode.com/posts";
+  const url: string = "https://httpbin.org";
 
   test("get", async () => {
-    const res = await req.get(url);
+    const res = await req.get(`${url}/get`);
 
-    expect(res.data.length).toBe(100);
+    expect(res.status).toBe(200);
+  });
+
+  test("get image", async () => {
+    const res = await req.get(`${url}/image/png`, {
+      accept: "image/*",
+    });
+
+    expect(res.data.indexOf("PNG") !== -1).toBe(true);
   });
 
   test("post", async () => {
-    const res = await req.post(url, {
-      title: "title",
-      body: "body",
-      userId: 1,
+    const res = await req.post(`${url}/post`, {
+      test: "test",
     });
 
-    expect(res.data).toEqual({
-      id: 101,
-      title: "title",
-      body: "body",
-      userId: 1,
-    });
+    expect(res.data.json.test === "test").toBe(true);
   });
 
-  test("post, body X", async () => {
-    const res = await req.post(url);
+  test("post body x", async () => {
+    const res = await req.post(`${url}/post`);
 
-    expect(res.data).toEqual({
-      id: 101,
-    });
+    expect(res.data.json === null).toBe(true);
+  });
+
+  test("post form data", async () => {
+    const formData = new FormData();
+
+    formData.append("test", "test");
+
+    const res = await req.post(`${url}/post`, formData);
+
+    expect(res.data.form.test === "test").toEqual(true);
   });
 });
 

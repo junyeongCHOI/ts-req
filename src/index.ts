@@ -1,6 +1,6 @@
 export default class Core {
   static commonHeaders: any = {
-    "Content-type": "application/json",
+    "Content-Type": "application/json",
     "Cache-Control": "no-cache",
   };
 
@@ -32,7 +32,9 @@ export default class Core {
   }
 
   static parsedBody(data: any): any {
-    if (typeof data === "object") {
+    if (data instanceof FormData) {
+      return data;
+    } else {
       return JSON.stringify(data);
     }
   }
@@ -41,10 +43,12 @@ export default class Core {
     const contentType: string | null = httpRequest.getResponseHeader(
       "Content-Type"
     );
-    const data: string = httpRequest.responseText;
+    const data: string = httpRequest.response;
 
     if (contentType && contentType.indexOf("json") !== -1) {
       return JSON.parse(data);
+    } else {
+      return data;
     }
   }
 
@@ -74,7 +78,7 @@ export default class Core {
             });
           } else {
             // status resSuccessCode이외 예외처리
-            reject(httpRequest.responseText);
+            reject({ status: httpRequest.status, data: httpRequest.response });
           }
         }
 
