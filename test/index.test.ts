@@ -1,22 +1,23 @@
-import req from "../dist/index.js";
+import tsReq from "../dist/index.js";
 
 describe("ts-req", () => {
   const url: string = "https://httpbin.org";
+  const req = new tsReq(url);
 
   test("get", async () => {
-    const res = await req.get(`${url}/get`);
+    const res = await req.get("/get");
 
     expect(res.status).toBe(200);
   });
 
   test("get image", async () => {
-    const res = await req.get(`${url}/image/png`);
+    const res = await req.get("/image/png");
 
     expect(res.data.indexOf("PNG") !== -1).toBe(true);
   });
 
   test("post", async () => {
-    const res = await req.post(`${url}/post`, {
+    const res = await req.post("/post", {
       test: "test",
     });
 
@@ -24,7 +25,7 @@ describe("ts-req", () => {
   });
 
   test("post body x", async () => {
-    const res = await req.post(`${url}/post`);
+    const res = await req.post("/post");
 
     expect(res.data.json === null).toBe(true);
   });
@@ -34,7 +35,7 @@ describe("ts-req", () => {
 
     formData.append("test", "test");
 
-    const res = await req.post(`${url}/post`, formData);
+    const res = await req.post("/post", formData);
 
     expect(res.data.form.test === "test").toEqual(true);
   });

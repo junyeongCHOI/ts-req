@@ -1,50 +1,36 @@
-export default class Core {
-  static commonHeaders: any = {
-    "Content-Type": "application/json",
-    "Cache-Control": "no-cache",
-    accept: "*",
-  };
+interface sendConfig {
+  method: "GET" | "get" | "POST" | "post";
+  url?: string;
+  body?: any;
+  headers?: any;
+}
 
-  static resResolveStatus: number[] = [
-    100,
-    101,
-    200,
-    201,
-    202,
-    203,
-    204,
-    205,
-    206,
-  ];
+class TsReq {
+  url: string;
+  defaultHeader: any;
+  resolveStatus: number[];
 
-  static setHeaders(httpRequest: XMLHttpRequest, headers?: any) {
-    Object.entries({ ...this.commonHeaders, ...headers }).forEach(
-      ([key, value]: [string, any]) => {
-        httpRequest.setRequestHeader(key, value);
-      }
-    );
+  constructor(url: string) {
+    this.url = url;
+    this.defaultHeader = {
+      "Content-Type": "application/json",
+      "Cache-Control": "no-cache",
+      accept: "*",
+    };
+    this.resolveStatus = [200];
   }
 
-  static runCallback(httpRequest: XMLHttpRequest, callback?: Function) {
-    if (typeof callback !== "function") {
-      return;
-    }
-    callback(httpRequest);
-  }
-
-  static parsedBody(data: any): any {
-    if (data instanceof FormData) {
-      return data;
-    } else {
+  bodyParser<T>(data: T): T | string {
+    if (!(data instanceof FormData) && typeof data === "object") {
       return JSON.stringify(data);
     }
+
+    return data;
   }
 
-  static parsedData(httpRequest: XMLHttpRequest): string | void {
-    const contentType: string | null = httpRequest.getResponseHeader(
-      "Content-Type"
-    );
-    const data: string = httpRequest.response;
+  dataParser(xhr: XMLHttpRequest): any {
+    const contentType = xhr.getResponseHeader("Content-Type");
+    const data = xhr.response;
 
     if (contentType && contentType.indexOf("json") !== -1) {
       return JSON.parse(data);
@@ -53,83 +39,67 @@ export default class Core {
     }
   }
 
-  static getHttpRequest(): XMLHttpRequest {
-    const httpRequest = new XMLHttpRequest();
-    if (!httpRequest) {
-      throw "XMLHttpRequest의 인스턴스를 만들 수 없습니다.";
-    }
-
-    return httpRequest;
-  }
-
-  static setOnReadyStateChange(
-    httpRequest: XMLHttpRequest,
-    resolve: Function,
-    reject: Function,
-    callback?: Function
-  ) {
-    httpRequest.onreadystatechange = (): void => {
+  send(config: sendConfig): Promise<any> {
+    return new Promise((resolve: any, reject: any) => {
       try {
-        if (httpRequest.readyState === httpRequest.DONE) {
-          // 요청 완료
-          if (this.resResolveStatus.includes(httpRequest.status)) {
-            resolve({
-              status: httpRequest.status,
-              data: this.parsedData(httpRequest),
-            });
-          } else {
-            // status resSuccessCode이외 예외처리
-            reject({ status: httpRequest.status, data: httpRequest.response });
+        const xhr = new XMLHttpRequest();
+        if (!xhr)
+          return reject("XMLHttpRequest의 인스턴스를 만들 수 없습니다.");
+
+        const mergedUrl =
+          typeof config.url === "string" && config.url !== "/"
+            ? this.url + config.url
+            : this.url;
+
+        xhr.open(config.method, mergedUrl);
+
+        //헤더 설정
+        Object.entries({ ...this.defaultHeader, ...config.headers }).forEach(
+          ([key, value]: [string, any]) => {
+            xhr.setRequestHeader(key, value);
           }
-        }
+        );
 
-        // 콜백이 있을 경우 각 readyState 마다 callback을 실행
-        this.runCallback(httpRequest, callback);
-      } catch (error) {
-        // 응답 이외의 에러 예외처리
-        reject(error);
-      }
-    };
-  }
+        // 상태 변경 실행 함수
+        xhr.onreadystatechange = (): void => {
+          try {
+            if (xhr.readyState === xhr.DONE) {
+              if (this.resolveStatus.includes(xhr.status)) {
+                resolve({
+                  status: xhr.status,
+                  data: this.dataParser(xhr),
+                });
+              } else {
+                reject({ status: xhr.status, data: xhr.response });
+              }
+            }
+          } catch (error) {
+            reject(error);
+          }
+        };
 
-  static get(url: string, headers?: any, callback?: Function): Promise<any> {
-    return new Promise((resolve: Function, reject: Function) => {
-      try {
-        const httpRequest: XMLHttpRequest = this.getHttpRequest();
-
-        httpRequest.open("GET", url);
-
-        this.setHeaders(httpRequest, headers);
-
-        this.setOnReadyStateChange(httpRequest, resolve, reject, callback);
-
-        httpRequest.send();
+        xhr.send(this.bodyParser(config.body));
       } catch (error) {
         reject(error);
       }
     });
   }
 
-  static post(
-    url: string,
-    body?: any,
-    headers?: any,
-    callback?: Function
-  ): Promise<any> {
-    return new Promise((resolve: Function, reject: Function) => {
-      try {
-        const httpRequest: XMLHttpRequest = this.getHttpRequest();
+  get(url?: string, headers?: any) {
+    return this.send({
+      method: "GET",
+      url,
+      headers,
+    });
+  }
 
-        httpRequest.open("POST", url);
-
-        this.setHeaders(httpRequest, headers);
-
-        this.setOnReadyStateChange(httpRequest, resolve, reject, callback);
-
-        httpRequest.send(this.parsedBody(body));
-      } catch (error) {
-        reject(error);
-      }
+  post(url?: string, body?: any, headers?: any) {
+    return this.send({
+      method: "POST",
+      url,
+      body,
+      headers,
     });
   }
 }
+export default TsReq;
