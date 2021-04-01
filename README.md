@@ -1,6 +1,6 @@
 # ts-req
 
-![](https://img.shields.io/bundlephobia/min/ts-req) ![](https://img.shields.io/badge/-0%20dependencies-blueviolet)
+![](https://img.shields.io/github/languages/top/junyeongchoi/ts-req) ![](https://img.shields.io/bundlephobia/min/ts-req) ![](https://img.shields.io/badge/0-dependencies-blueviolet)
 
 `TypeScript`로 작성된 XMLHttpRequest 기반 request 라이브러리입니다.
 기본적으로 Promise를 반환합니다.
