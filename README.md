@@ -1,6 +1,6 @@
 # ts-req
 
-![](https://img.shields.io/github/languages/top/junyeongchoi/ts-req) ![](https://img.shields.io/bundlephobia/min/ts-req) ![](https://img.shields.io/badge/0-dependencies-blueviolet)
+![](https://img.shields.io/github/languages/top/junyeongchoi/ts-req) ![](https://img.shields.io/bundlephobia/min/ts-req) ![](https://img.shields.io/badge/dependencies-0-blueviolet)
 
 `TypeScript`로 작성된 XMLHttpRequest 기반 request 라이브러리입니다.
 기본적으로 Promise를 반환합니다.
@@ -161,6 +161,8 @@ resolve를 반환할 status를 지정합니다. 아래 예제는 status 200이 �
 ```javascript
 req.resolveStatus = [200];
 ```
+
+<hr />
 
 [git: https://github.com/junyeongCHOI/ts-req](https://github.com/junyeongCHOI/ts-req)
 
