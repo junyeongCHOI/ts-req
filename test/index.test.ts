@@ -1,4 +1,4 @@
-import TsReq from "../dist/index.js";
+import TsReq from "../index.js";
 
 describe("ts-req", () => {
   const url: string = "https://httpbin.org";

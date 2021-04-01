@@ -1,19 +1,21 @@
 {
   "name": "ts-req",
-  "version": "0.2.5",
+  "version": "0.2.7",
   "description": "no description. just use it",
   "author": "junyeong CHOI <98.junyeong@gmail.com>",
   "repository": "https://github.com/junyeongCHOI/ts-req",
   "license": "MIT",
-  "module": "/dist/index.js",
-  "main": "/dist/index.js",
+  "module": "index.js",
+  "main": "index.js",
   "files": [
-    "/dist"
+    "index.js",
+    "index.d.ts"
   ],
   "scripts": {
     "build": "tsc",
-    "test": "npm run build && terser ./dist/index.js -o ./dist/index.js -m -c  && jest",
-    "publish:minify": "tsc && terser ./dist/index.js -o ./dist/index.js -m -c && npm publish"
+    "minify": "terser ./index.js -o ./index.js -m -c",
+    "test": "npm run build && npm run minify && jest",
+    "publish:minify": "npm run build && npm run minify && npm publish"
   },
   "keywords": [
     "ts-req",
