@@ -71,6 +71,8 @@ describe("ts-req", () => {
 
     const res = await req.get("/status/500");
 
+    req.resolveStatus = [0, 200];
+
     expect(res.status).toBe(500);
   });
 
