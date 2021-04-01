@@ -33,7 +33,9 @@ const res2 = await req.post(url, body, headers, callback);
 
 > callback은 각 request의 state가 변경될 때 실행됩니다.
 
-> resolve를 반환하는 status는 100, 101, 200, 201, 202, 203, 204, 205, 206 가 있습니다.
+> resolve를 반환하는 status는 0, 100, 101, 200, 201, 202, 203, 204, 205, 206 가 있습니다. status 0은 요청을 취소했을 때 반환합니다.
+
+# Example
 
 ## 📝 GET (JSON)
 
@@ -102,9 +104,9 @@ const res2 = await req.post(url, body, headers, callback);
   const url = "https://httpbin.org";
   const req = new TsReq(url);
 
-  const res1 = await req.get("/get", null, (xhr) => {
+  const res1 = await req.get("/get", null, (req) => {
     // ... do something
-    console.log(xhr);
+    console.log(req);
   });
 
   const res2 = await req.post(
@@ -115,15 +117,36 @@ const res2 = await req.post(url, body, headers, callback);
       userId: 1,
     },
     null,
-    (xhr) => {
+    (req) => {
       // ... do something
-      console.log(xhr);
+      console.log(req);
     }
   );
 
   console.log(res1, res2);
 })();
 ```
+
+> callback의 첫 번째 인자인 req는 해당 요청의 XMLHttpRequest 인스턴스 입니다. type은 XMLHttpRequest입니다.
+
+## 📝 Cancel
+
+```javascript
+(async () => {
+  const url = "https://httpbin.org";
+  const req = new TsReq(url);
+
+  const needToCancel = true;
+
+  const res = await req.get("/get", null, (req) => {
+    if (needToCancel) req.abort();
+  });
+
+  console.log(res);
+})();
+```
+
+> 취소된 응답은 status 0을 반환합니다.
 
 ## 📝 Set Common Headers
 

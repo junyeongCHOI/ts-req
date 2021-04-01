@@ -18,7 +18,7 @@ class TsReq {
       "Cache-Control": "no-cache",
       accept: "*",
     };
-    this.resolveStatus = [100, 101, 200, 201, 202, 203, 204, 205, 206];
+    this.resolveStatus = [0, 100, 101, 200, 201, 202, 203, 204, 205, 206];
   }
 
   bodyParser<T>(data: T): T | string {
@@ -52,15 +52,6 @@ class TsReq {
             ? this.url + config.url
             : this.url;
 
-        xhr.open(config.method, mergedUrl);
-
-        //헤더 설정
-        Object.entries({ ...this.defaultHeader, ...config.headers }).forEach(
-          ([key, value]: [string, any]) => {
-            xhr.setRequestHeader(key, value);
-          }
-        );
-
         // 상태 변경 실행 함수
         xhr.onreadystatechange = (): void => {
           try {
@@ -82,6 +73,15 @@ class TsReq {
             reject(error);
           }
         };
+
+        xhr.open(config.method, mergedUrl);
+
+        //헤더 설정
+        Object.entries({ ...this.defaultHeader, ...config.headers }).forEach(
+          ([key, value]: [string, any]) => {
+            xhr.setRequestHeader(key, value);
+          }
+        );
 
         xhr.send(this.bodyParser(config.body));
       } catch (error) {
