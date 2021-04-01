@@ -1,6 +1,6 @@
 interface sendConfig {
   method: "GET" | "get" | "POST" | "post";
-  url?: string;
+  pathname?: string;
   body?: any;
   headers?: any;
   callback?: Function;
@@ -48,8 +48,8 @@ class TsReq {
           return reject("XMLHttpRequest의 인스턴스를 만들 수 없습니다.");
 
         const mergedUrl =
-          typeof config.url === "string" && config.url !== "/"
-            ? this.url + config.url
+          typeof config.pathname === "string" && config.pathname !== "/"
+            ? this.url + config.pathname
             : this.url;
 
         // 상태 변경 실행 함수
@@ -90,19 +90,19 @@ class TsReq {
     });
   }
 
-  get(url?: string, headers?: any, callback?: Function) {
+  get(pathname?: string, headers?: any, callback?: Function) {
     return this.send({
       method: "GET",
-      url,
+      pathname,
       headers,
       callback,
     });
   }
 
-  post(url?: string, body?: any, headers?: any, callback?: Function) {
+  post(pathname?: string, body?: any, headers?: any, callback?: Function) {
     return this.send({
       method: "POST",
-      url,
+      pathname,
       body,
       headers,
       callback,

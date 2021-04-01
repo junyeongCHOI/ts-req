@@ -24,9 +24,9 @@ import TsReq from "ts-req";
 ```javascript
 const req = new TsReq(url);
 
-const res1 = await req.get(url, headers, callback);
+const res1 = await req.get(pathname, headers, callback);
 
-const res2 = await req.post(url, body, headers, callback);
+const res2 = await req.post(pathname, body, headers, callback);
 ```
 
 > url은 필수입니다.
