@@ -16,7 +16,7 @@ class TsReq {
     this.defaultHeader = {
       "Content-Type": "application/json",
       "Cache-Control": "no-cache",
-      accept: "*",
+      Accept: "*",
     };
     this.resolveStatus = [0, 100, 101, 200, 201, 202, 203, 204, 205, 206];
   }
